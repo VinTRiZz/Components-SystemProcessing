@@ -42,7 +42,7 @@ int64_t RAMCard::free() const
     std::string output;
 
     if (!Libraries::ProcessInvoker::invoke("free", Libraries::StringList("--mega"), output)) {
-        LOG_WARNING("Error getting free RAM");
+        COMPLOG_WARNING("Error getting free RAM");
         return 0;
     }
 

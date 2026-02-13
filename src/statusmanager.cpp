@@ -18,7 +18,7 @@ double StatusManager::getCPUCurrentTemperature() const noexcept
     std::string temperatureString;
     if (!Filework::Common::readFileData(tempDataFile, temperatureString))
     {
-        LOG_WARNING("Error getting CPU temperature");
+        COMPLOG_WARNING("Error getting CPU temperature");
         return 0;
     }
 

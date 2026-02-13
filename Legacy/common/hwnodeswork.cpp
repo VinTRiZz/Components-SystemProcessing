@@ -41,7 +41,7 @@ void printHwTree(hwNode *pNode, int spaces)
         prefix += "-";
     prefix += "+";
 
-    LOG_EMPTY(prefix, pNode->getClassName());
+    COMPLOG_EMPTY(prefix, pNode->getClassName());
     for (int i = 0; i < pNode->countChildren(); i++)
     {
         printHwTree(pNode->getChild(i), spaces + 4);
@@ -49,41 +49,41 @@ void printHwTree(hwNode *pNode, int spaces)
 }
 
 void printNodeInfo(hwNode *pNode) {
-    LOG_WARNING(">>>>>>>>> NODE NAME:   ", pNode->getClassName());
-    LOG_EMPTY("Phys id:", pNode->getPhysId());
-    LOG_EMPTY("Bus info:", pNode->getBusInfo());
-    LOG_EMPTY("Logical name:", pNode->getLogicalName());
-    LOG_EMPTY("Vendor:", pNode->getVendor());
-    LOG_EMPTY("Product:", pNode->getProduct());
-    LOG_EMPTY("Serial:", pNode->getSerial());
-    LOG_EMPTY("Version:", pNode->getVersion());
-    LOG_EMPTY("Description:", pNode->getDescription());
-    LOG_EMPTY("Subvendor:", pNode->getSubVendor());
-    LOG_EMPTY("Subproduct:", pNode->getSubProduct());
-    LOG_EMPTY("Dev:", pNode->getDev());
-    LOG_EMPTY("Date:", pNode->getDate());
-    LOG_EMPTY("Clock:", pNode->getClock());
-    LOG_EMPTY("Size:", pNode->getSize());
-    LOG_EMPTY("Start:", pNode->getStart());
-    LOG_EMPTY("Capacity:", pNode->getCapacity());
-    LOG_EMPTY("Width:", pNode->getWidth());
-    LOG_EMPTY("Slot:", pNode->getSlot());
-    LOG_EMPTY("Modalias:", pNode->getModalias());
+    COMPLOG_WARNING(">>>>>>>>> NODE NAME:   ", pNode->getClassName());
+    COMPLOG_EMPTY("Phys id:", pNode->getPhysId());
+    COMPLOG_EMPTY("Bus info:", pNode->getBusInfo());
+    COMPLOG_EMPTY("Logical name:", pNode->getLogicalName());
+    COMPLOG_EMPTY("Vendor:", pNode->getVendor());
+    COMPLOG_EMPTY("Product:", pNode->getProduct());
+    COMPLOG_EMPTY("Serial:", pNode->getSerial());
+    COMPLOG_EMPTY("Version:", pNode->getVersion());
+    COMPLOG_EMPTY("Description:", pNode->getDescription());
+    COMPLOG_EMPTY("Subvendor:", pNode->getSubVendor());
+    COMPLOG_EMPTY("Subproduct:", pNode->getSubProduct());
+    COMPLOG_EMPTY("Dev:", pNode->getDev());
+    COMPLOG_EMPTY("Date:", pNode->getDate());
+    COMPLOG_EMPTY("Clock:", pNode->getClock());
+    COMPLOG_EMPTY("Size:", pNode->getSize());
+    COMPLOG_EMPTY("Start:", pNode->getStart());
+    COMPLOG_EMPTY("Capacity:", pNode->getCapacity());
+    COMPLOG_EMPTY("Width:", pNode->getWidth());
+    COMPLOG_EMPTY("Slot:", pNode->getSlot());
+    COMPLOG_EMPTY("Modalias:", pNode->getModalias());
     for (auto cfgKey : pNode->getConfigKeys())
     {
-        LOG_EMPTY("Key:", cfgKey, " Value:", pNode->getConfig(cfgKey));
+        COMPLOG_EMPTY("Key:", cfgKey, " Value:", pNode->getConfig(cfgKey));
     }
-    LOG_EMPTY("Capabilities:", pNode->getCapabilities());
+    COMPLOG_EMPTY("Capabilities:", pNode->getCapabilities());
 
     int i = 0;
     for (auto res : pNode->getResources(" "))
     {
-        LOG_EMPTY("Resource", i, res);
+        COMPLOG_EMPTY("Resource", i, res);
     }
 
     i = 0;
     for (auto hint : pNode->getHints()) {
-        LOG_EMPTY("HINT", i, hint);
+        COMPLOG_EMPTY("HINT", i, hint);
     }
 }
 
@@ -95,12 +95,12 @@ void printChildren(hwNode *pNode)
         return;
     }
 
-    LOG_WARNING("------------------------ CHILDREN FOR", pNode->getClassName(), "--------------------------");
+    COMPLOG_WARNING("------------------------ CHILDREN FOR", pNode->getClassName(), "--------------------------");
     for (int i = 0; i < pNode->countChildren(); i++)
     {
         printChildren(pNode->getChild(i));
     }
-    LOG_EMPTY("--------------------------");
+    COMPLOG_EMPTY("--------------------------");
 }
 
 hwNode *findChild(hw::hwClass hwClassid, hwNode *searchNode)

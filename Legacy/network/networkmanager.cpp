@@ -104,7 +104,7 @@ void NetworkManager::updateAdaptorList()
 //    if (Libraries::ProcessInvoker::invoke("lshw", "-class network",
 //                                           lshwOutput))
 //    {
-//        LOG_ERROR("lshw execution error");
+//        COMPLOG_ERROR("lshw execution error");
 //        return;
 //    }
 
@@ -204,7 +204,7 @@ void NetworkManager::updateAdaptorList()
 
     //    if (!stdfs::exists("/sys/class/net"))
     //    {
-    //        LOG_CRITICAL("Error searching for network adaptors");
+    //        COMPLOG_CRITICAL("Error searching for network adaptors");
     //        return;
     //    }
 
@@ -221,7 +221,7 @@ void NetworkManager::updateAdaptorList()
     //        loopback
     //            continue;
 
-    //        LOG_DEBUG("Found adapter:", entry.path());
+    //        COMPLOG_DEBUG("Found adapter:", entry.path());
     //        tempFile.open(adapterBasepath + "/address", std::ios_base::in);
     //        if (!tempFile.is_open()) continue;
 
@@ -234,7 +234,7 @@ void NetworkManager::updateAdaptorList()
     //        // Get driver info
     //        if (!stdfs::exists(adapterBasepath + "/device/driver"))
     //        {
-    //            LOG_ERROR("Did not found driver info for interface",
+    //            COMPLOG_ERROR("Did not found driver info for interface",
     //                      bufferStruct.logicalName);
     //            continue;
     //        }
@@ -271,7 +271,7 @@ std::string NetworkManager::foreignIp(const std::string& interfaceLogicalName) c
     std::string output;
     if (!Libraries::ProcessInvoker::invoke("curl", "-q ifconfig.me", output))
         return "Error getting F-IP";
-//    LOG_DEBUG("Foreign IP:", output);
+//    COMPLOG_DEBUG("Foreign IP:", output);
     return output;
 
 //    int fd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -290,7 +290,7 @@ std::string NetworkManager::foreignIp(const std::string& interfaceLogicalName) c
 
 //    close(fd);
 
-//    LOG_DEBUG("Foreign IP:", result);
+//    COMPLOG_DEBUG("Foreign IP:", result);
 //    return result;
 }
 
@@ -313,7 +313,7 @@ std::string NetworkManager::localIp(const std::string& interfaceLogicalName) con
 
     close(fd);
 
-//    LOG_DEBUG("Local IP:", result);
+//    COMPLOG_DEBUG("Local IP:", result);
     return result;
 }
 
@@ -386,7 +386,7 @@ NetworkManager::processDynamicRequestPrivate(const std::string& uuid)
         adaptorListPart["id"] = netAdaptor.guid;
         adaptorListPart["isConnected"] = true;
         adaptorListPart["speed"] = netAdaptor.speed;
-        LOG_WARNING("Requested for Wi-Fi net, but gather not defined");
+        COMPLOG_WARNING("Requested for Wi-Fi net, but gather not defined");
         adaptorListPart["networkName"] = "Undefined";
         adaptorListPart["networkQuality"] = 3; // from 0 (bad connection) to 3 (really good connection)
     }

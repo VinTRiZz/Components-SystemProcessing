@@ -23,7 +23,7 @@ int64_t CPU::currentTemperature() const noexcept
     std::string temperatureString;
     if (!Libraries::FileworkUtil::readFileData(tempDataFile, temperatureString))
     {
-        LOG_WARNING("Error getting CPU temperature");
+        COMPLOG_WARNING("Error getting CPU temperature");
         return 0;
     }
 
@@ -42,7 +42,7 @@ double CPU::powerUsage() const noexcept
     // --quiet --show PkgWatt --interval 1 | grep -o -E
     // '\\b[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?\\b'", output, 1500))
     // {
-    //     LOG_WARNING("Error getting CPU power usage with text: %s",
+    //     COMPLOG_WARNING("Error getting CPU power usage with text: %s",
     //     output.c_str());
     // }
 
@@ -68,7 +68,7 @@ double Hardware::CPU::currentClock() const
 
     if (!Libraries::ProcessInvoker::invoke("awk", paramList, output, 1000))
     {
-        LOG_WARNING("Error getting CPU clock current with text:",
+        COMPLOG_WARNING("Error getting CPU clock current with text:",
                     output.c_str());
         return result;
     }
@@ -213,7 +213,7 @@ bool Hardware::CPU::setOverclock(const nlohmann::json &overclockJson)
         return true;
     } catch (nlohmann::json::exception& ex)
     {
-        LOG_ERROR("CPU overclock set failed: not found parameters");
+        COMPLOG_ERROR("CPU overclock set failed: not found parameters");
         return false;
     }
 }

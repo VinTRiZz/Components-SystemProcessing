@@ -41,7 +41,7 @@ void USBObjectManager::updateObjects()
 {
     std::string output, errorStr;
     if (!Libraries::ProcessInvoker::invoke("lsusb", {}, output, errorStr, 10000)) {
-        LOG_ERROR("Error PCI info updating");
+        COMPLOG_ERROR("Error PCI info updating");
         return;
     }
 
@@ -60,7 +60,7 @@ void USBObjectManager::updateObjects()
         tempObject.did = std::string(line.begin() + 28, line.begin() + 32);
         tempObject.deviceName = std::string(line.begin() + 33, line.end());
 
-//        LOG_DEBUG("BUS", tempObject.busNumber, "DEV", tempObject.deviceNumber, "ID", tempObject.vid, ":", tempObject.did, "NAME", tempObject.deviceName);
+//        COMPLOG_DEBUG("BUS", tempObject.busNumber, "DEV", tempObject.deviceNumber, "ID", tempObject.vid, ":", tempObject.did, "NAME", tempObject.deviceName);
 
         m_objects.push_back(tempObject);
     }

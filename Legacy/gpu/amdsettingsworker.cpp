@@ -45,7 +45,7 @@ void AMDSettingsWorker::init(int64_t gpuId)
     // Check if directory exist
     if (!Libraries::FileworkUtil::objectExist(cardPath))
     {
-        LOG_CRITICAL("AMD init error: no such directory", cardPath);
+        COMPLOG_CRITICAL("AMD init error: no such directory", cardPath);
         return;
     }
 
@@ -123,7 +123,7 @@ Libraries::JOptional<int64_t> AMDSettingsWorker::getPowerMin()
 bool AMDSettingsWorker::setTemp(int64_t temp)
 {
     // TODO: Set critical temperature
-    LOG_WARNING("AMD Temperature set failed");
+    COMPLOG_WARNING("AMD Temperature set failed");
     return false;
 }
 
@@ -151,7 +151,7 @@ bool AMDSettingsWorker::setFan(int64_t fanSpeed)
 {
     if ((fanSpeed < 0) || (fanSpeed > 255))
     {
-        LOG_ERROR("Invalid fan value to set: %i", fanSpeed);
+        COMPLOG_ERROR("Invalid fan value to set: %i", fanSpeed);
         return false;
     }
     setSetting("pwm1", fanSpeed); // 0..255
@@ -167,7 +167,7 @@ bool AMDSettingsWorker::setFanMode(GPUFanOperatingMode fanMode)
     case GPUFanOperatingMode::manualState: setSetting("pwm1_enable", 2); break;
     case GPUFanOperatingMode::amdUnknownState: setSetting("pwm1_enable", 3); break;
     default:
-        LOG_ERROR("AMD: Unknown fan state got");
+        COMPLOG_ERROR("AMD: Unknown fan state got");
         return false;
     }
     return true;

@@ -36,7 +36,7 @@ void OSManager::setupPackages()
 {
     if (!Libraries::ProcessInvoker::isSuperuser())
     {
-        LOG_ERROR("Not a root user");
+        COMPLOG_ERROR("Not a root user");
         return;
     }
 
@@ -44,7 +44,7 @@ void OSManager::setupPackages()
 
     std::ifstream packagesFile(PACKAGE_FILE);
 
-    LOG_INFO("Reading file");
+    COMPLOG_INFO("Reading file");
     if (packagesFile.is_open())
     {
         std::string package;
@@ -55,19 +55,19 @@ void OSManager::setupPackages()
         packagesFile.close();
     } else
     {
-        LOG_CRITICAL("Did not found packages file. Copy file \"", PACKAGE_FILE,
+        COMPLOG_CRITICAL("Did not found packages file. Copy file \"", PACKAGE_FILE,
                      "\" to binary directory");
     }
-    LOG_OK("Reading packages file complete");
+    COMPLOG_OK("Reading packages file complete");
 
-    LOG_INFO("Installing packages...");
+    COMPLOG_INFO("Installing packages...");
     for (auto& pkg : requiredPackages)
     {
-        LOG_INFO("Checking package:", pkg);
+        COMPLOG_INFO("Checking package:", pkg);
         if (!Libraries::PackageManager::isInstalled(pkg))
             Libraries::PackageManager::install(pkg);
     }
-    LOG_INFO("Install check completed");
+    COMPLOG_INFO("Install check completed");
 }
 
 void OSManager::setupOsInfo()
@@ -106,10 +106,10 @@ void OSManager::init()
     if (Libraries::ProcessInvoker::isSuperuser())
     {
         if (!Libraries::ProcessInvoker::invoke("dpkg", "--configure -a"))
-            LOG_ERROR("Error invoking dpkg configure");
+            COMPLOG_ERROR("Error invoking dpkg configure");
     } else
     {
-        LOG_WARNING("Not a root user");
+        COMPLOG_WARNING("Not a root user");
         return;
     }
 

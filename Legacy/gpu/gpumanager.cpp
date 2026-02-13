@@ -36,7 +36,7 @@ struct GPUManager::GPUManagerPrivate {
     static int x11ErrorHandler(Display *display, XErrorEvent *error) {
         char errorText[256];
         XGetErrorText(display, error->error_code, errorText, sizeof(errorText));
-        LOG_CRITICAL("Error in X11 library functions! Text:", errorText);
+        COMPLOG_CRITICAL("Error in X11 library functions! Text:", errorText);
         return 0;
     }
 
@@ -46,7 +46,7 @@ struct GPUManager::GPUManagerPrivate {
     void addGpu(hwNode* pNode)
     {
         if (pNode->getDescription() != "VGA compatible controller") {
-            LOG_WARNING("May be skipped card (not a VGA compatible controller)");
+            COMPLOG_WARNING("May be skipped card (not a VGA compatible controller)");
             return;
         }
 
@@ -188,14 +188,14 @@ void GPUManager::init()
     auto result = nvmlInit();
     d->nvidiaCanWork = (result == NVML_SUCCESS);
     if (!d->nvidiaCanWork) {
-        LOG_ERROR("NVML init error text:", nvmlErrorString(result));
+        COMPLOG_ERROR("NVML init error text:", nvmlErrorString(result));
     }
 
     for (auto gpuInfo : d->gpuParameters)
     {
         if (!gpuInfo.actualId.has_value()) {
-            LOG_WARNING("Error setting up GPU:");
-            LOG_EMPTY(gpuInfo.busInfo, gpuInfo.vendor, gpuInfo.product);
+            COMPLOG_WARNING("Error setting up GPU:");
+            COMPLOG_EMPTY(gpuInfo.busInfo, gpuInfo.vendor, gpuInfo.product);
             continue;
         }
 
@@ -205,8 +205,8 @@ void GPUManager::init()
         } else if (gpuInfo.vendor == "Nvidia") {
 
             if (!d->nvidiaCanWork) {
-                LOG_WARNING("Not inited Nvidia card:");
-                LOG_EMPTY(gpuInfo.busInfo, gpuInfo.vendor, gpuInfo.product);
+                COMPLOG_WARNING("Not inited Nvidia card:");
+                COMPLOG_EMPTY(gpuInfo.busInfo, gpuInfo.vendor, gpuInfo.product);
                 continue;
             }
             gpuVendorType = GPU::GPU_CARD_VENDOR::GPU_CARD_VENDOR_NVIDIA;
@@ -236,7 +236,7 @@ nlohmann::json GPUManager::processInfoRequestPrivate(const std::string& uuid)
 
     for (auto gpu : d->m_gpus) {
         if (!gpu.use_count()) {
-            LOG_ERROR("Invalid use count of rGpu!");
+            COMPLOG_ERROR("Invalid use count of rGpu!");
             continue;
         }
         result.push_back(gpu->getFullInformation());

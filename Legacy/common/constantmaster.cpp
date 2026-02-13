@@ -26,7 +26,7 @@ void ConstantMaster::init()
 {
     updateCardPciEqus();
     d->dmiManager.updateInfo();
-    LOG_INFO("Constant manager inited");
+    COMPLOG_INFO("Constant manager inited");
 }
 
 JOptional<std::string> ConstantMaster::getSubvendor(const std::string& hexCode) const
@@ -100,20 +100,20 @@ void ConstantMaster::updateCardPciEqus()
                 try {
                     d->gpuPciIdEqus[i] = std::stoi(std::string(bufId.begin(), bufId.begin() + 2), nullptr, 16);
                 } catch (std::invalid_argument& ex) {
-                    LOG_ERROR("Error casting:", std::string(bufId.begin(), bufId.begin() + 2));
+                    COMPLOG_ERROR("Error casting:", std::string(bufId.begin(), bufId.begin() + 2));
                     continue;
                 }
             }
         }
     }
 
-    LOG_EMPTY("------------------------------");
-    LOG_INFO("Found card equs:");
+    COMPLOG_EMPTY("------------------------------");
+    COMPLOG_INFO("Found card equs:");
     for (auto& pciEqu : d->gpuPciIdEqus)
     {
-        LOG_EMPTY("Card:", (int)pciEqu.first, "PCI (decimal):", pciEqu.second);
+        COMPLOG_EMPTY("Card:", (int)pciEqu.first, "PCI (decimal):", pciEqu.second);
     }
-    LOG_EMPTY("------------------------------");
+    COMPLOG_EMPTY("------------------------------");
 }
 
 ConstantMaster::ConstantMaster() : d{new ConstantMasterPrivate} {}

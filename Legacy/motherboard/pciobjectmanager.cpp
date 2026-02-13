@@ -91,7 +91,7 @@ void PCIObjectManager::updateObjectList()
 {
     std::string output, errorStr;
     if (!Libraries::ProcessInvoker::invoke("lspci", {}, output, errorStr, 10000)) {
-        LOG_ERROR("Error PCI info updating");
+        COMPLOG_ERROR("Error PCI info updating");
         return;
     }
 
@@ -110,7 +110,7 @@ void PCIObjectManager::updateObjectList()
         auto pciType = std::string(line.begin() + 8, typeStringEnd);
         tempObject.type = getPciObjectType(pciType);
 
-//        LOG_DEBUG("PCI ID: \"", tempObject.getPciNumber(), "\", PCI type:", int(tempObject.type));
+//        COMPLOG_DEBUG("PCI ID: \"", tempObject.getPciNumber(), "\", PCI type:", int(tempObject.type));
 
         m_objects.push_back(tempObject);
     }
@@ -141,7 +141,7 @@ void PCIObject::setPciNumber(const std::string &pciNo)
         deviceNumber = std::stoi(std::string(pciNo.begin() + 4, pciNo.begin() + 6), nullptr, 16);
         functionNumber = std::stoi(std::string(pciNo.begin() + 6, pciNo.begin() + 7), nullptr, 16);
     } catch (std::invalid_argument& ex) {
-        LOG_ERROR("PCI id set error (invalid string)");
+        COMPLOG_ERROR("PCI id set error (invalid string)");
     }
 }
 

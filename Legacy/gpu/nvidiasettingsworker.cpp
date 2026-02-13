@@ -41,13 +41,13 @@ void NvidiaSettingsWorker::init(int64_t gpuId)
 
     auto result = nvmlDeviceGetHandleByIndex(gpuId, &d->device);
     if (result != NVML_SUCCESS) {
-        LOG_ERROR("Error initing Nvidia GPU handle for id", gpuId, "Error:", nvmlErrorString(result));
+        COMPLOG_ERROR("Error initing Nvidia GPU handle for id", gpuId, "Error:", nvmlErrorString(result));
         return;
     }
 
     result = nvmlDeviceGetNumFans(d->device, &d->fanUnitCount);
     if (result != NVML_SUCCESS) {
-        LOG_ERROR("Error initing Nvidia GPU fan unit count for id", gpuId, "Error:", nvmlErrorString(result));
+        COMPLOG_ERROR("Error initing Nvidia GPU fan unit count for id", gpuId, "Error:", nvmlErrorString(result));
         return;
     }
 }
@@ -57,7 +57,7 @@ bool NvidiaSettingsWorker::setPowerLimit(int64_t lim)
     auto result = nvmlDeviceSetPowerManagementLimit(
         d->device, lim * 1000);
     if (result != NVML_SUCCESS) {
-        LOG_ERROR("Error setting Nvidia GPU power limit for id", gpuId, "Error:", nvmlErrorString(result));
+        COMPLOG_ERROR("Error setting Nvidia GPU power limit for id", gpuId, "Error:", nvmlErrorString(result));
         return false;
     }
     return true;
@@ -69,7 +69,7 @@ Libraries::JOptional<int64_t> NvidiaSettingsWorker::getPowerLimitDefault()
     auto result = nvmlDeviceGetPowerManagementDefaultLimit(d->device,
                                                       &defaultPowerLimit);
     if (result != NVML_SUCCESS) {
-        LOG_ERROR("Error getting Nvidia GPU default power limit for id", gpuId, "Error:", nvmlErrorString(result));
+        COMPLOG_ERROR("Error getting Nvidia GPU default power limit for id", gpuId, "Error:", nvmlErrorString(result));
         return {};
     }
     return (defaultPowerLimit / 1e3);
@@ -80,7 +80,7 @@ Libraries::JOptional<int64_t> NvidiaSettingsWorker::getPowerLimitCurrent()
     unsigned int enforcedPowerLimit {0};
     auto result = nvmlDeviceGetEnforcedPowerLimit(d->device, &enforcedPowerLimit);
     if (result != NVML_SUCCESS) {
-        LOG_ERROR("Error get power limit for Nvidia GPU with id", gpuId, "Error:", nvmlErrorString(result));
+        COMPLOG_ERROR("Error get power limit for Nvidia GPU with id", gpuId, "Error:", nvmlErrorString(result));
         return {};
     }
     return (enforcedPowerLimit / 1e3);
@@ -91,7 +91,7 @@ Libraries::JOptional<int64_t> NvidiaSettingsWorker::getPowerCurrent()
     unsigned int powerUsage {0};
     auto result = nvmlDeviceGetPowerUsage(d->device, &powerUsage);
     if (result != NVML_SUCCESS) {
-        LOG_ERROR("Error get current power for Nvidia GPU settings with id", gpuId, "Error:", nvmlErrorString(result));
+        COMPLOG_ERROR("Error get current power for Nvidia GPU settings with id", gpuId, "Error:", nvmlErrorString(result));
         return {};
     }
     return (powerUsage / 1e3);
@@ -104,7 +104,7 @@ Libraries::JOptional<int64_t> NvidiaSettingsWorker::getPowerMax()
             d->device, &powerLimitMin, &powerLimitMax);
 
     if (result != NVML_SUCCESS) {
-        LOG_ERROR("Error get power max for Nvidia GPU settings with id", gpuId, "Error:", nvmlErrorString(result));
+        COMPLOG_ERROR("Error get power max for Nvidia GPU settings with id", gpuId, "Error:", nvmlErrorString(result));
         return {};
     }
     return (powerLimitMax / 1e3);
@@ -116,7 +116,7 @@ Libraries::JOptional<int64_t> NvidiaSettingsWorker::getPowerMin()
     auto result = nvmlDeviceGetPowerManagementLimitConstraints(
             d->device, &powerLimitMin, &powerLimitMax);
     if (result != NVML_SUCCESS) {
-        LOG_ERROR("Error getting power min for Nvidia GPU with id", gpuId, "Error:", nvmlErrorString(result));
+        COMPLOG_ERROR("Error getting power min for Nvidia GPU with id", gpuId, "Error:", nvmlErrorString(result));
         return {};
     }
     return (powerLimitMin / 1e3);
@@ -129,7 +129,7 @@ bool NvidiaSettingsWorker::setTemp(int64_t temp)
     auto result = nvmlDeviceSetTemperatureThreshold(
         d->device, NVML_TEMPERATURE_THRESHOLD_GPU_MAX, &tempInt);
     if (result != NVML_SUCCESS) {
-        LOG_ERROR("Error getting max temp for Nvidia GPU with id", gpuId, "Error:", nvmlErrorString(result));
+        COMPLOG_ERROR("Error getting max temp for Nvidia GPU with id", gpuId, "Error:", nvmlErrorString(result));
         return {};
     }
     return temp;
@@ -141,7 +141,7 @@ Libraries::JOptional<int64_t> NvidiaSettingsWorker::getTempCurrent()
     auto result = nvmlDeviceGetTemperature(
         d->device, NVML_TEMPERATURE_GPU, &temp);
     if (result != NVML_SUCCESS) {
-        LOG_ERROR("Error getting current temp for Nvidia GPU with id", gpuId, "Error:", nvmlErrorString(result));
+        COMPLOG_ERROR("Error getting current temp for Nvidia GPU with id", gpuId, "Error:", nvmlErrorString(result));
         return {};
     }
     return temp;
@@ -153,7 +153,7 @@ Libraries::JOptional<int64_t> NvidiaSettingsWorker::getTempMax()
     auto result = nvmlDeviceGetTemperatureThreshold(
         d->device, NVML_TEMPERATURE_THRESHOLD_GPU_MAX, &temp);
     if (result != NVML_SUCCESS) {
-        LOG_ERROR("Error getting max temp for Nvidia GPU with id", gpuId, "Error:", nvmlErrorString(result));
+        COMPLOG_ERROR("Error getting max temp for Nvidia GPU with id", gpuId, "Error:", nvmlErrorString(result));
         return {};
     }
     return temp;
@@ -165,7 +165,7 @@ bool NvidiaSettingsWorker::setFan(int64_t fanSpeed)
     for (int i = 0; i < d->fanUnitCount; i++) {
         auto result = nvmlDeviceSetFanSpeed_v2(d->device, i, fanSpeed);
         if (result != NVML_SUCCESS) {
-            LOG_ERROR("Error setting fan mode for Nvidia GPU with id", gpuId, "Error:", nvmlErrorString(result));
+            COMPLOG_ERROR("Error setting fan mode for Nvidia GPU with id", gpuId, "Error:", nvmlErrorString(result));
             return {};
         }
     }
@@ -186,14 +186,14 @@ bool NvidiaSettingsWorker::setFanMode(GPUFanOperatingMode fanMode)
         break;
 
     default:
-        LOG_ERROR("Nvidia: got unknown fan state");
+        COMPLOG_ERROR("Nvidia: got unknown fan state");
         return false;
     }
 
     for (int i = 0; i < d->fanUnitCount; i++) {
         auto result = nvmlDeviceSetFanControlPolicy(d->device, i, policy);
         if (result != NVML_SUCCESS) {
-            LOG_ERROR("Error setting fan mode for Nvidia GPU with id", gpuId, "Error:", nvmlErrorString(result));
+            COMPLOG_ERROR("Error setting fan mode for Nvidia GPU with id", gpuId, "Error:", nvmlErrorString(result));
             continue;
         }
     }
@@ -207,7 +207,7 @@ Libraries::JOptional<int64_t> NvidiaSettingsWorker::getFanCurrent()
     unsigned speed {0};
     auto res = nvmlDeviceGetFanSpeed(d->device, &speed);
     if (res != NVML_SUCCESS) {
-        LOG_ERROR("Error getting fan devices for Nvidia GPU with id", gpuId, "Error:", nvmlErrorString(res));
+        COMPLOG_ERROR("Error getting fan devices for Nvidia GPU with id", gpuId, "Error:", nvmlErrorString(res));
         return {};
     }
     return speed;
@@ -220,7 +220,7 @@ Libraries::JOptional<std::string> NvidiaSettingsWorker::getCudaVersion() const {
 
     return std::to_string(tmpVal / 1000) + "." + std::to_string(tmpVal % 100 / 10);
 #else
-    LOG_ERROR("Nvidia Built without CUDA: unknown version");
+    COMPLOG_ERROR("Nvidia Built without CUDA: unknown version");
     return {};
 #endif
 }
@@ -232,7 +232,7 @@ std::pair<int64_t, int64_t> NvidiaSettingsWorker::getFanLimits() const
     unsigned int maxFanValue {0};
     auto result = nvmlDeviceGetMinMaxFanSpeed(d->device, &minFanValue, &maxFanValue);
     if (result != NVML_SUCCESS) {
-        LOG_ERROR("Error getting fan limits for Nvidia GPU Error:", nvmlErrorString(result));
+        COMPLOG_ERROR("Error getting fan limits for Nvidia GPU Error:", nvmlErrorString(result));
         return {};
     }
     return std::make_pair(minFanValue, maxFanValue);

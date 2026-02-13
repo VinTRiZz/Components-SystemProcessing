@@ -63,17 +63,17 @@ SysinfoMaster::~SysinfoMaster() {}
 
 void SysinfoMaster::updateInfo()
 {
-    LOG_INFO("DmiManager info update started");
+    COMPLOG_INFO("DmiManager info update started");
 
     if (!Libraries::ProcessInvoker::isSuperuser()) {
-        LOG_ERROR("Not a super user. No information available");
+        COMPLOG_ERROR("Not a super user. No information available");
         return;
     }
 
     d->openclAdapter.updateInfo();
     scanDevices();
 
-    LOG_INFO("DmiManager info update complete");
+    COMPLOG_INFO("DmiManager info update complete");
 }
 
 hwNode *SysinfoMaster::getPropertyTree()
@@ -88,7 +88,7 @@ void SysinfoMaster::scanDevices()
     scan_nvme(d->computer);
     if(!scan_pci(d->computer))
     {
-        LOG_WARNING("Error scanning PCI, trying legacy scan");
+        COMPLOG_WARNING("Error scanning PCI, trying legacy scan");
         scan_pci_legacy(d->computer);
     }
 //     It gather bad data, maybe next time
@@ -98,10 +98,10 @@ void SysinfoMaster::scanDevices()
 //    scan_memory(d->computer);
 
 // TODO: Later
-//    LOG_DEBUG("USB");
+//    COMPLOG_DEBUG("USB");
 //    scan_usb(d->computer);
 
-//    LOG_DEBUG("INPUT");
+//    COMPLOG_DEBUG("INPUT");
 //    scan_input(d->computer);
 
 

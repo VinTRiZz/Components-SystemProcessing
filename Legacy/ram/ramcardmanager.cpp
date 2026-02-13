@@ -56,7 +56,7 @@ std::vector<std::string> createRamHandlerList()
 {
     if (!Libraries::ProcessInvoker::isSuperuser())
     {
-        LOG_WARNING("Not a root user");
+        COMPLOG_WARNING("Not a root user");
         return {};
     }
 
@@ -66,7 +66,7 @@ std::vector<std::string> createRamHandlerList()
     if (!Libraries::ProcessInvoker::invoke("dmidecode", " -t memory",
                                            dmidecodeOutput))
     {
-        LOG_WARNING("Error calling dmidecode with text: ",
+        COMPLOG_WARNING("Error calling dmidecode with text: ",
                     dmidecodeOutput.c_str());
         return ramHandlers;
     }

@@ -108,7 +108,7 @@ struct OpenCLAdapter::Impl
     bool setError(cl_int err, const char *operation) {
         if (err != CL_SUCCESS) {
             errorText = std::string(operation) + " : " + convertCLErrorToString(err);
-            LOG_WARNING(errorText);
+            COMPLOG_WARNING(errorText);
             return false;
         }
         return true;
@@ -136,7 +136,7 @@ struct OpenCLAdapter::Impl
                                 &cards);
         } catch (std::exception& ex)
         {
-            LOG_ERROR("OpenCL get cards error: %s", ex.what());
+            COMPLOG_ERROR("OpenCL get cards error: %s", ex.what());
             return;
         }
 
@@ -202,7 +202,7 @@ bool OpenCLAdapter::updateInfo()
     try {
         cl::Platform::get(&platformsDetected);
     } catch (std::exception& ex) {
-        LOG_ERROR("OpenCL error: %s", ex.what());
+        COMPLOG_ERROR("OpenCL error: %s", ex.what());
         return false;
     }
 

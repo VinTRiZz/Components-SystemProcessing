@@ -123,7 +123,7 @@ std::string GPUCard::uuid() const
 std::shared_ptr<GPUCard> GPUCard::createGPU(GPU_CARD_VENDOR gcv, int64_t gpuId, std::shared_ptr<PDisplay> pDisplay)
 {
     if (gcv == GPU_CARD_VENDOR::GPU_CARD_VENDOR_UNKNOWN) {
-        LOG_CRITICAL("Invalid GPU vendor (vendor HM-internal code:", (int)gcv, ")");
+        COMPLOG_CRITICAL("Invalid GPU vendor (vendor HM-internal code:", (int)gcv, ")");
         return {};
     }
 
@@ -198,7 +198,7 @@ void GPUCard::setGpuCardParameters(const Libraries::Internal::GPU_Parameters &rP
         cudaGetDeviceCount(&deviceCount);
 
         if (deviceCount == 0) {
-            LOG_MESSAGE("No CUDA devices found to init Nvidia GPU card");
+            COMPLOG_MESSAGE("No CUDA devices found to init Nvidia GPU card");
             return;
         }
 

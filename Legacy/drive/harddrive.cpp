@@ -42,7 +42,7 @@ struct DriveManager::DriveManagerPrivate {
                 "\'{print $3}\'",
                 result))
         {
-            LOG_WARNING("Error query harddrive names with text: ",
+            COMPLOG_WARNING("Error query harddrive names with text: ",
                         result.c_str());
         }
 
@@ -58,7 +58,7 @@ struct DriveManager::DriveManagerPrivate {
     void addDisk(hwNode* pNode)
     {
         if (pNode->getPhysId().empty() && pNode->getLogicalName().empty()) {
-            LOG_WARNING("Skipped drive (maybe is a controller)");
+            COMPLOG_WARNING("Skipped drive (maybe is a controller)");
             return;
         }
 
@@ -193,7 +193,7 @@ bool DriveManager::processOverclockRequestPrivate(const nlohmann::json& payload,
         if (drive.uuid() == uuid)
         {
             //            drive.setOverclock(payload);
-            LOG_ERROR("Overclock for drive not set");
+            COMPLOG_ERROR("Overclock for drive not set");
             return true;
         }
     }

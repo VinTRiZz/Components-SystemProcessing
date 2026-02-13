@@ -197,7 +197,7 @@ bool AMDFrequencyManager::updateFreqs()
 {
     std::string readBuf;
     if (!Libraries::FileworkUtil::readFileData(m_configFreqFilePath, readBuf)) {
-        LOG_WARNING("Error reading freq settings file path");
+        COMPLOG_WARNING("Error reading freq settings file path");
         return false;
     }
 
@@ -206,7 +206,7 @@ bool AMDFrequencyManager::updateFreqs()
         std::vector<std::string> midiStrings;
         boost::iter_split(midiStrings, readBuf, boost::first_finder("OD_"));
         if (midiStrings.size() < 3) {
-            LOG_WARNING("Not parsed AMD frequencies");
+            COMPLOG_WARNING("Not parsed AMD frequencies");
             return false;
         }
         midiStrings.erase(midiStrings.begin()); // Erase first one
@@ -223,7 +223,7 @@ bool AMDFrequencyManager::updateFreqs()
 
         auto limits = getFreqLimits(midiStrings[2]);
         if (limits.size() < 3) {
-            LOG_WARNING("Limits not parsed");
+            COMPLOG_WARNING("Limits not parsed");
             return false;
         }
 
@@ -252,7 +252,7 @@ FrequencyValue_t AMDFrequencyManager::getCurrentMemoryFreq() const
 {
     std::string fileReadBuffer;
     if (!Libraries::FileworkUtil::readFileData(m_currentMemFreqFilePath, fileReadBuffer)) {
-        LOG_ERROR("Error getting AMD memory freq");
+        COMPLOG_ERROR("Error getting AMD memory freq");
         return {};
     }
 
@@ -263,7 +263,7 @@ FrequencyValue_t AMDFrequencyManager::getCurrentCoreFreq() const
 {
     std::string fileReadBuffer;
     if (!Libraries::FileworkUtil::readFileData(m_currentCoreFreqFilePath, fileReadBuffer)) {
-        LOG_ERROR("Error getting AMD core freq");
+        COMPLOG_ERROR("Error getting AMD core freq");
         return {};
     }
 
@@ -272,13 +272,13 @@ FrequencyValue_t AMDFrequencyManager::getCurrentCoreFreq() const
 
 FrequencyValue_t AMDFrequencyManager::getCurrentMemoryLock() const
 {
-    LOG_ERROR("AMD: Get current memory lock");
+    COMPLOG_ERROR("AMD: Get current memory lock");
     return {};
 }
 
 FrequencyValue_t AMDFrequencyManager::getCurrentCoreLock() const
 {
-    LOG_ERROR("AMD: Get current core lock");
+    COMPLOG_ERROR("AMD: Get current core lock");
     return {};
 }
 
@@ -286,7 +286,7 @@ FrequencyValue_t AMDFrequencyManager::getCurrentCoreVoltage() const
 {
     std::string fileReadBuffer;
     if (!Libraries::FileworkUtil::readFileData(m_currentCoreVoltageFilePath, fileReadBuffer)) {
-        LOG_ERROR("Error getting AMD current core voltage");
+        COMPLOG_ERROR("Error getting AMD current core voltage");
         return {};
     }
     boost::trim(fileReadBuffer);
@@ -295,7 +295,7 @@ FrequencyValue_t AMDFrequencyManager::getCurrentCoreVoltage() const
 
 FrequencyValue_t AMDFrequencyManager::getCurrentMemVoltage() const
 {
-    LOG_ERROR("AMD: Get current mem voltage");
+    COMPLOG_ERROR("AMD: Get current mem voltage");
     return {};
 }
 

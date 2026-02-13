@@ -46,7 +46,7 @@ int64_t Drive::temperature() const
 {
     if (!Libraries::PackageManager::isInstalled("smartctl"))
     {
-        LOG_WARNING("Not installed: smartctl");
+        COMPLOG_WARNING("Not installed: smartctl");
         return 0;
     }
 
@@ -64,7 +64,7 @@ int64_t Drive::temperature() const
                 "'{$1=$1};1' | xargs",
             output))
     {
-        LOG_WARNING("Error getting temperature of hard drive: %s",
+        COMPLOG_WARNING("Error getting temperature of hard drive: %s",
                     m_info.logicalName.tryGetValue());
     }
 

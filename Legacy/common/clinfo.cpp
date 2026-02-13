@@ -15,7 +15,7 @@ void AMD_GPUInfoGetter::init()
         cl::Platform::get(&platformsDetected);
     } catch (std::exception& ex)
     {
-        LOG_ERROR("OpenCL error: %s", ex.what());
+        COMPLOG_ERROR("OpenCL error: %s", ex.what());
         return;
     }
 
@@ -69,7 +69,7 @@ void AMD_GPUInfoGetter::processPlatform(cl::Platform& platform)
                             &cards);
     } catch (std::exception& ex)
     {
-        LOG_ERROR("OpenCL get cards error: %s", ex.what());
+        COMPLOG_ERROR("OpenCL get cards error: %s", ex.what());
         return;
     }
 
@@ -107,16 +107,16 @@ void AMD_GPUInfoGetter::processPlatform(cl::Platform& platform)
 
         m_infoVect.push_back(cardInfo);
 
-        LOG_DEBUG("AMD Device info:");
-        LOG_DEBUG("Board name: %s", cardInfo.boardName.c_str());
-        LOG_DEBUG("Name: %s", cardInfo.name.c_str());
-        LOG_DEBUG("PCI ID: %s", cardInfo.pciId.c_str());
-        LOG_DEBUG("Total mem: %s",
+        COMPLOG_DEBUG("AMD Device info:");
+        COMPLOG_DEBUG("Board name: %s", cardInfo.boardName.c_str());
+        COMPLOG_DEBUG("Name: %s", cardInfo.name.c_str());
+        COMPLOG_DEBUG("PCI ID: %s", cardInfo.pciId.c_str());
+        COMPLOG_DEBUG("Total mem: %s",
                   std::to_string(cardInfo.totalMemory).c_str());
-        LOG_DEBUG("Max mem alloc: %s",
+        COMPLOG_DEBUG("Max mem alloc: %s",
                   std::to_string(cardInfo.maxMemAlloc).c_str());
-        LOG_DEBUG("CL Dev version: %s", cardInfo.clDeviceVersion.c_str());
-        LOG_DEBUG("Max compute units: %s",
+        COMPLOG_DEBUG("CL Dev version: %s", cardInfo.clDeviceVersion.c_str());
+        COMPLOG_DEBUG("Max compute units: %s",
                   std::to_string(cardInfo.maxComputeUnits).c_str());
     }
 }
