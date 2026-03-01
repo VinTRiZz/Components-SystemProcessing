@@ -9,6 +9,8 @@
 
 #include <sys/sysinfo.h>
 
+#include <fstream>
+
 namespace SystemProcessing {
 
 double StatusManager::getCPUCurrentTemperature() const noexcept
