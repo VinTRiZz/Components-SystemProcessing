@@ -10,6 +10,7 @@
 #include <sys/sysinfo.h>
 
 #include <fstream>
+#include <thread>
 
 namespace SystemProcessing {
 
